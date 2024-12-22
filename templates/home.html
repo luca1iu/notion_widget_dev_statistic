@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Statistics</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Courier New', Courier, monospace; /* 等宽字体，适配字符表 */
+            background-color: #000; /* 黑色背景 */
+            color: rgb(255,255,255); /* 白色文字 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 容器样式 */
+        .container {
+            width: 100%;
+            max-width: 1600px; /* 最大宽度 */
+            padding: 10px;
+        }
+
+        /* 表格样式 */
+        pre {
+            font-size: 3rem; /* 字体大小 */
+            line-height: 2; /* 行高 */
+            white-space: pre; /* 保持宽度一致 */
+            word-wrap: break-word; /* 长内容自动换行 */
+            padding: 0px;
+            background-color: rgb(0,0,0); /* 深灰背景 */
+            text-align: left; /* 左对齐文本 */
+            overflow: hidden; /* 防止滚动 */
+            width: 100%;
+        }
+
+        /* 标题样式 */
+        .title {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+        <pre>
+            <div class="title">
+                <h3> </h3>
+                <img src="https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fthepracticaldev.s3.amazonaws.com%2Fi%2Fjrzutxzs0l43wqvw5k8z.png" style="width:140px;height:140px;"></img>
+                <h3> Content Creator Statistics</h3>
+            </div>
+ Followers:           {{ followers }}
+ Total Articles:      {{ total_articles }}
+ Total Comments:      {{ total_comments }}
+ Total Reactions:     {{ total_public_reactions }}
+ Total Page Views:    {{ total_page_views }}
+        </pre>
+</div>
+</body>
+</html>
