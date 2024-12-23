@@ -72,15 +72,40 @@ def get_articles(api_key):
     return total_articles, total_comments, total_public_reactions, total_page_views
 
 
+@app.route('/')
+def home():
+    return render_template('home.html')
+
 @app.route('/api/<api_key>', methods=['GET'])
 def get_dev_info(api_key):
     followers = get_followers(api_key)
     total_articles, total_comments, total_public_reactions, total_page_views = get_articles(api_key)
-
-    return render_template('home.html', followers=followers, total_articles=total_articles,
-                           total_comments=total_comments, total_public_reactions=total_public_reactions,
-                           total_page_views=total_page_views)
+    return jsonify({
+        "followers": followers,
+        "total_articles": total_articles,
+        "total_comments": total_comments,
+        "total_public_reactions": total_public_reactions,
+        "total_page_views": total_page_views
+    })
+    # return render_template('home.html', followers=followers, total_articles=total_articles,
+    #                        total_comments=total_comments, total_public_reactions=total_public_reactions,
+    #                        total_page_views=total_page_views)
 
 
 if __name__ == '__main__':
     app.run(port=5000)
+
+# <div class="container">
+#         <pre>
+#             <div class="title">
+#                 <h3> </h3>
+#                 <img src="https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fthepracticaldev.s3.amazonaws.com%2Fi%2Fjrzutxzs0l43wqvw5k8z.png" style="width:140px;height:140px;"></img>
+#                 <h3> Content Creator Statistics</h3>
+#             </div>
+#  Followers:           {{ followers }}
+#  Total Articles:      {{ total_articles }}
+#  Total Comments:      {{ total_comments }}
+#  Total Reactions:     {{ total_public_reactions }}
+#  Total Page Views:    {{ total_page_views }}
+#         </pre>
+# </div>

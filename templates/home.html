@@ -16,7 +16,7 @@
             height: 100%;
             font-family: 'Courier New', Courier, monospace; /* 等宽字体，适配字符表 */
             background-color: #000; /* 黑色背景 */
-            color: rgb(255,255,255); /* 白色文字 */
+            color: rgb(255, 255, 255); /* 白色文字 */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -36,7 +36,7 @@
             white-space: pre; /* 保持宽度一致 */
             word-wrap: break-word; /* 长内容自动换行 */
             padding: 0px;
-            background-color: rgb(0,0,0); /* 深灰背景 */
+            background-color: rgb(0, 0, 0); /* 深灰背景 */
             text-align: left; /* 左对齐文本 */
             overflow: hidden; /* 防止滚动 */
             width: 100%;
@@ -50,19 +50,90 @@
     </style>
 </head>
 <body>
-<div class="container">
-        <pre>
-            <div class="title">
-                <h3> </h3>
-                <img src="https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fthepracticaldev.s3.amazonaws.com%2Fi%2Fjrzutxzs0l43wqvw5k8z.png" style="width:140px;height:140px;"></img>
-                <h3> Content Creator Statistics</h3>
-            </div>
- Followers:           {{ followers }}
- Total Articles:      {{ total_articles }}
- Total Comments:      {{ total_comments }}
- Total Reactions:     {{ total_public_reactions }}
- Total Page Views:    {{ total_page_views }}
-        </pre>
+<div id="inputBlock" style="display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 1600px; /* 最大宽度 */
+    height: 85%;
+    margin: auto;
+    padding: 20px;
+    border: 2px solid white;
+    background-color: #1a1a1a;">
+<pre>
+    <div class="title" style="display: flex; flex-direction: row; align-items: flex-start; margin-bottom: 20px;">
+        <h3 style="font-size: 1.5rem; color: #fff; margin-bottom: 10px;">Welcome</h3>
+        <img src="https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fthepracticaldev.s3.amazonaws.com%2Fi%2Fjrzutxzs0l43wqvw5k8z.png"
+             style="width:110px; height:110px; margin-bottom: 10px;"></img>
+        <h4 style="font-size: 1.2rem; color: #fff;">Content Creator Statistics</h4>
+    </div>
+    <div id="inputButton" style="display: flex; flex-direction:row; margin-bottom: 20px;">
+        <input id="apiKeyInput" type="text" placeholder="Enter your DEV API Key" style="
+            width: 50%;
+            padding: 12px;
+            font-size: 1.2rem;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            background-color: #000;
+            color: #fff;">
+        <button onclick="fetchDevStats()" style="
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;">Submit
+        </button>
+    </div>
+
+    <!-- API Info Section -->
+    <div id="apiInfo" style="display: flex; flex-direction:row; font-size: 1rem; color: #ddd;">
+        Need an API Key?
+        <a href="https://dev.to/settings/account" target="_blank" style="color: #4caf50; text-decoration: none;">Click
+            here to get your DEV API Key</a>
+    </div>
+    </pre>
 </div>
+<div id="resultsContainer" class="results" style="display: none;"></div>
+<script>
+    async function fetchDevStats() {
+        const apiKey = document.getElementById('apiKeyInput').value;
+        if (!apiKey) {
+            alert("Please enter your API Key");
+            return;
+        }
+        const apiUrl = `/api/${apiKey}`;
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) throw new Error("Failed to fetch data");
+            const data = await response.json();
+            // Display the data
+            const resultsContainer = document.getElementById('resultsContainer');
+            const inputBlock = document.getElementById('inputBlock');
+            resultsContainer.style.display = 'block';
+            inputBlock.style.display = 'none';
+            resultsContainer.innerHTML = `
+                    <div class="container">
+                        <pre>
+                            <div class="title">
+                                <h3> </h3>
+                                <img src="https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fthepracticaldev.s3.amazonaws.com%2Fi%2Fjrzutxzs0l43wqvw5k8z.png" style="width:140px;height:140px;"></img>
+                                <h3> Content Creator Statistics</h3>
+                            </div>
+                            Followers:           ${data.followers || "N/A"}
+                            Total Articles:      ${data.total_articles || "N/A"}
+                            Total Comments:      ${data.total_comments || "N/A"}
+                            Total Reactions:     ${data.total_public_reactions || "N/A"}
+                            Total Page Views:    ${data.total_page_views || "N/A"}
+                        </pre>
+                    </div>
+            `;
+        } catch (error) {
+            alert("Error: " + error.message);
+            console.error(error);
+        }
+    }
+</script>
 </body>
 </html>
