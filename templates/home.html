@@ -22,23 +22,15 @@
             align-items: center;
         }
 
-        /* 容器样式 */
-        .container {
-            width: 100%;
-            max-width: 1600px; /* 最大宽度 */
-            padding: 10px;
-        }
-
         /* 表格样式 */
         pre {
             font-size: 3rem; /* 字体大小 */
-            line-height: 2; /* 行高 */
+            line-height: 1; /* 行高 */
             white-space: pre; /* 保持宽度一致 */
             word-wrap: break-word; /* 长内容自动换行 */
-            padding: 0px;
             background-color: rgb(0, 0, 0); /* 深灰背景 */
             text-align: left; /* 左对齐文本 */
-            overflow: hidden; /* 防止滚动 */
+            overflow: visible; /* 防止滚动 */
             width: 100%;
         }
 
@@ -46,56 +38,78 @@
         .title {
             display: flex;
             align-items: center;
+            margin-top: 20px;
+            margin-bottom: -20px;
+        }
+
+        .statsContent {
+            margin-left: 30px;
+            white-space: normal;
+            line-height: 2;
+            font-size: 3rem;
+            text-align: left;
         }
     </style>
 </head>
 <body>
-<div id="inputBlock" style="display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    max-width: 1600px; /* 最大宽度 */
-    height: 85%;
+<div id="inputBlock" style="
     margin: auto;
     padding: 20px;
-    border: 2px solid white;
-    background-color: #1a1a1a;">
+    text-align: left; /* Align text to the left */">
 <pre>
-    <div class="title" style="display: flex; flex-direction: row; align-items: flex-start; margin-bottom: 20px;">
-        <h3 style="font-size: 1.5rem; color: #fff; margin-bottom: 10px;">Welcome</h3>
+    <div class="title" style="display: flex; align-items: center;">
         <img src="https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fthepracticaldev.s3.amazonaws.com%2Fi%2Fjrzutxzs0l43wqvw5k8z.png"
-             style="width:110px; height:110px; margin-bottom: 10px;"></img>
-        <h4 style="font-size: 1.2rem; color: #fff;">Content Creator Statistics</h4>
+             style="width:110px; height:110px;"></img>
+        <h3>  Content Creator Statistics</h3>
     </div>
-    <div id="inputButton" style="display: flex; flex-direction:row; margin-bottom: 20px;">
+    <div id="inputButton" style="margin-top: 70px; display: flex; align-items: center;">
         <input id="apiKeyInput" type="text" placeholder="Enter your DEV API Key" style="
             width: 50%;
-            padding: 12px;
-            font-size: 1.2rem;
+            padding: 20px;
+            font-size: 1rem;
             border: 1px solid #fff;
             border-radius: 5px;
             background-color: #000;
-            color: #fff;">
-        <button onclick="fetchDevStats()" style="
+            color: #fff;
+            height: 50px;"> <button onclick="fetchDevStats()" style="
             font-size: 1.5rem;
-            padding: 15px 30px;
+            padding: 10px 30px;
             background-color: #4caf50;
             color: #fff;
             border: none;
             border-radius: 5px;
-            cursor: pointer;">Submit
+            cursor: pointer;
+            margin-left: 10px;
+            height: 50px;">Submit
         </button>
-    </div>
 
-    <!-- API Info Section -->
-    <div id="apiInfo" style="display: flex; flex-direction:row; font-size: 1rem; color: #ddd;">
-        Need an API Key?
-        <a href="https://dev.to/settings/account" target="_blank" style="color: #4caf50; text-decoration: none;">Click
-            here to get your DEV API Key</a>
+        <!-- API Info Section -->
+    <div id="apiInfo" style="font-size: 1rem; color: #ddd;">
+        Need an API Key? <a href="https://dev.to/settings/extensions" target="_blank"
+                            style="color: #4caf50; text-decoration: none;">Click here to get your DEV API Key</a>
+    </div>
     </div>
     </pre>
 </div>
-<div id="resultsContainer" class="results" style="display: none;"></div>
+
+<div id="resultsContainer" class="results" style="display: none; text-align: center;">
+    <pre>
+    <div class="title">
+        <img src="https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fthepracticaldev.s3.amazonaws.com%2Fi%2Fjrzutxzs0l43wqvw5k8z.png"
+             style="width:130px; height:130px; margin-right: 20px">
+        <h1 style="font-size: 3rem;"> Content Creator Statistics</h1>
+    </div>
+
+    <div class="statsContent"> <!-- 确保文本左对齐 -->
+        Followers:           <span id="followers">N/A</span><br>
+        Total Articles:      <span id="totalArticles">N/A</span><br>
+        Total Comments:      <span id="totalComments">N/A</span><br>
+        Total Reactions:     <span id="totalReactions">N/A</span><br>
+        Total Page Views:    <span id="totalPageViews">N/A</span>
+    </div>
+    </pre>
+</div>
+
 <script>
     async function fetchDevStats() {
         const apiKey = document.getElementById('apiKeyInput').value;
@@ -109,26 +123,15 @@
             if (!response.ok) throw new Error("Failed to fetch data");
             const data = await response.json();
             // Display the data
-            const resultsContainer = document.getElementById('resultsContainer');
+            document.getElementById('followers').textContent = data.followers || "N/A";
+            document.getElementById('totalArticles').textContent = data.total_articles || "N/A";
+            document.getElementById('totalComments').textContent = data.total_comments || "N/A";
+            document.getElementById('totalReactions').textContent = data.total_public_reactions || "N/A";
+            document.getElementById('totalPageViews').textContent = data.total_page_views || "N/A";
             const inputBlock = document.getElementById('inputBlock');
-            resultsContainer.style.display = 'block';
             inputBlock.style.display = 'none';
-            resultsContainer.innerHTML = `
-                    <div class="container">
-                        <pre>
-                            <div class="title">
-                                <h3> </h3>
-                                <img src="https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fthepracticaldev.s3.amazonaws.com%2Fi%2Fjrzutxzs0l43wqvw5k8z.png" style="width:140px;height:140px;"></img>
-                                <h3> Content Creator Statistics</h3>
-                            </div>
-                            Followers:           ${data.followers || "N/A"}
-                            Total Articles:      ${data.total_articles || "N/A"}
-                            Total Comments:      ${data.total_comments || "N/A"}
-                            Total Reactions:     ${data.total_public_reactions || "N/A"}
-                            Total Page Views:    ${data.total_page_views || "N/A"}
-                        </pre>
-                    </div>
-            `;
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.style.display = 'block';
         } catch (error) {
             alert("Error: " + error.message);
             console.error(error);
