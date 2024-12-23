@@ -5,7 +5,7 @@
      "headers": [
        {
          "key": "X-Frame-Options",
-         "value": "ALLOW-FROM https://www.notion.so"
+         "value": "ALLOW-FROM"
        },
        {
          "key": "Content-Security-Policy",
