@@ -1,34 +1,29 @@
 {
- "headers": [
-   {
-     "source": "/(.*)",
-     "headers": [
-       {
-         "key": "X-Frame-Options",
-         "value": "ALLOW-FROM"
-       },
-       {
-         "key": "Content-Security-Policy",
-         "value": "frame-ancestors 'self' https://www.notion.so"
-       }
-     ]
-   }
- ],
-
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "app.py"
-    }
-  ],
-
   "builds": [
     {
       "src": "app.py",
       "use": "@vercel/python"
     }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "ALLOW-FROM"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'self' https://www.notion.so"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "app.py"
+    }
   ]
-
 }
-
-
