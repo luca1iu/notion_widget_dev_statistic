@@ -1,9 +1,17 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "app.py", "use": "@vercel/python" }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "app.py" }
-  ]
+ "headers": [
+   {
+     "source": "/(.*)",
+     "headers": [
+       {
+         "key": "X-Frame-Options",
+         "value": "ALLOW-FROM https://www.notion.so"
+       },
+       {
+         "key": "Content-Security-Policy",
+         "value": "frame-ancestors 'self' https://www.notion.so"
+       }
+     ]
+   }
+ ]
 }
