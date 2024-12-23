@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Developer Statistics</title>
     <style>
         /* 全局样式 */
@@ -41,19 +41,26 @@
             align-items: center;
             margin-top: 20px;
             margin-bottom: -20px;
+            margin-left: 50px;
         }
 
         .statsContent {
-            margin-left: 30px;
             white-space: normal;
             line-height: 2;
             font-size: 3rem;
             text-align: left;
         }
+
+        #wrapper {
+            width: 1440px; /* 页面设计宽度 */
+            height: 900px; /* 页面设计高度 */
+            transform-origin: center;
+        }
     </style>
 </head>
 <body>
-<div id="inputBlock" style="
+<div id="wrapper">
+    <div id="inputBlock" style="
     margin: auto;
     padding: 20px;
     text-align: left; /* Align text to the left */">
@@ -63,9 +70,9 @@
              style="width:110px; height:110px;"></img>
         <h3>  Content Creator Statistics</h3>
     </div>
-    <div id="inputButton" style="margin-top: 70px; display: flex; align-items: center;">
+    <div id="inputButton" style="margin-top: 70px; margin-left: 50px; display: flex; align-items: center;">
         <input id="apiKeyInput" type="text" placeholder="Enter your DEV API Key" style="
-            width: 50%;
+            width: 40%;
             padding: 20px;
             font-size: 1rem;
             border: 1px solid #fff;
@@ -85,15 +92,15 @@
         </button>
 
         <!-- API Info Section -->
-    <div id="apiInfo" style="font-size: 1rem; color: #ddd;">
-        Need an API Key? <a href="https://dev.to/settings/extensions" target="_blank"
-                            style="color: #4caf50; text-decoration: none;">Click here to get your DEV API Key</a>
-    </div>
+        <div id="apiInfo" style="font-size: 1rem; color: #ddd;">
+            Need an API Key? <a href="https://dev.to/settings/extensions" target="_blank"
+                                style="color: #4caf50; text-decoration: none;">Click here to get your DEV API Key</a>
+        </div>
     </div>
     </pre>
-</div>
+    </div>
 
-<div id="resultsContainer" class="results" style="display: none; text-align: center;">
+    <div id="resultsContainer" class="results" style="display: none; text-align: center;">
     <pre>
     <div class="title">
         <img src="https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fthepracticaldev.s3.amazonaws.com%2Fi%2Fjrzutxzs0l43wqvw5k8z.png"
@@ -109,8 +116,8 @@
         Total Page Views:    <span id="totalPageViews">N/A</span>
     </div>
     </pre>
+    </div>
 </div>
-
 <script>
     async function fetchDevStats() {
         const apiKey = document.getElementById('apiKeyInput').value;
@@ -138,6 +145,16 @@
             console.error(error);
         }
     }
+
+    function scalePage() {
+            const wrapper = document.getElementById('wrapper');
+            const scaleX = window.innerWidth / wrapper.offsetWidth;
+            const scaleY = window.innerHeight / wrapper.offsetHeight;
+            const scale = Math.min(scaleX, scaleY);
+            wrapper.style.transform = `scale(${scale})`;
+        }
+        window.addEventListener('resize', scalePage);
+        window.addEventListener('load', scalePage);
 </script>
 </body>
 </html>
